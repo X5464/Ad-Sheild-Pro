@@ -1,10 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "AdBlock Shield Pro - Ultimate Ad & Tracker Blocker",
-  "version": "2.0.0",
-  "description": "Professional-grade ad and tracker blocker with 99%+ effectiveness. Blocks all ads on YouTube and websites. Created by Rajarshi Chakraborty.",
+  "name": "AdBlock Shield Pro - Professional Ad & Tracker Blocker",
+  "version": "4.0.0",
+  "description": "Professional-grade ad and tracker blocker with 99%+ effectiveness. Created by Rajarshi Chakraborty.",
   "author": "Rajarshi Chakraborty",
   "homepage_url": "https://github.com/X5464/Ad-Sheild-Pro",
+  
   "permissions": [
     "declarativeNetRequest",
     "declarativeNetRequestWithHostAccess",
@@ -17,70 +18,75 @@
     "alarms",
     "notifications"
   ],
+  
   "host_permissions": [
     "<all_urls>"
   ],
+  
   "background": {
     "service_worker": "background.js"
   },
+  
   "content_scripts": [
     {
-      "matches": [
-        "*://*.youtube.com/*"
-      ],
-      "js": [
-        "youtube-optimizer.js"
-      ],
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["youtube-optimizer.js"],
       "run_at": "document_start"
     },
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content.js"
-      ],
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
       "run_at": "document_start",
       "all_frames": true
     }
   ],
+  
   "declarative_net_request": {
     "rule_resources": [
+      {
+        "id": "easylist_rules",
+        "enabled": true,
+        "path": "rules/easylist_rules.json"
+      },
+      {
+        "id": "easyprivacy_rules",
+        "enabled": true,
+        "path": "rules/easyprivacy_rules.json"
+      },
+      {
+        "id": "fanboy_rules",
+        "enabled": true,
+        "path": "rules/fanboy_rules.json"
+      },
+      {
+        "id": "adguard_rules",
+        "enabled": true,
+        "path": "rules/adguard_rules.json"
+      },
       {
         "id": "youtube_ads",
         "enabled": true,
         "path": "rules/youtube_ads.json"
       },
       {
-        "id": "general_ads",
-        "enabled": true,
-        "path": "rules/general_ads.json"
-      },
-      {
         "id": "trackers",
         "enabled": true,
         "path": "rules/trackers.json"
-      },
-      {
-        "id": "social_widgets",
-        "enabled": true,
-        "path": "rules/social_widgets.json"
       }
     ]
   },
+  
   "action": {
     "default_popup": "popup/popup.html",
     "default_title": "AdBlock Shield Pro - Ultimate Protection"
   },
+  
   "options_page": "options/options.html",
+  
   "web_accessible_resources": [
     {
-      "resources": [
-        "rules/*.json"
-      ],
-      "matches": [
-        "<all_urls>"
-      ]
+      "resources": ["rules/*.json"],
+      "matches": ["<all_urls>"]
     }
   ]
 }
