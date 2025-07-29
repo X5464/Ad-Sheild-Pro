@@ -1,20 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "AdBlock Shield Pro",
-  "version": "1.0.0",
-  "description": "Ultimate cross-platform ad and tracker blocker - blocks 99%+ of ads, trackers, and malware across all websites. Created by Rajarshi Chakraborty.",
+  "name": "AdBlock Shield Pro - Ultimate Ad & Tracker Blocker",
+  "version": "2.0.0",
+  "description": "Professional-grade ad and tracker blocker with 99%+ effectiveness. Blocks all ads on YouTube and websites. Created by Rajarshi Chakraborty.",
   "author": "Rajarshi Chakraborty",
   "homepage_url": "https://github.com/X5464/Ad-Sheild-Pro",
   
   "permissions": [
     "declarativeNetRequest",
-    "declarativeNetRequestFeedback", 
+    "declarativeNetRequestWithHostAccess",
+    "declarativeNetRequestFeedback",
     "storage",
     "activeTab",
     "scripting",
     "tabs",
     "contextMenus",
-    "alarms"
+    "alarms",
+    "notifications"
   ],
   
   "host_permissions": [
@@ -27,6 +29,11 @@
   
   "content_scripts": [
     {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["youtube-optimizer.js"],
+      "run_at": "document_start"
+    },
+    {
       "matches": ["<all_urls>"],
       "js": ["content.js"],
       "run_at": "document_start",
@@ -37,21 +44,31 @@
   "declarative_net_request": {
     "rule_resources": [
       {
-        "id": "ads_rules",
+        "id": "youtube_ads",
         "enabled": true,
-        "path": "rules/ads_rules.json"
+        "path": "rules/youtube_ads.json"
       },
       {
-        "id": "trackers_rules", 
+        "id": "general_ads",
         "enabled": true,
-        "path": "rules/trackers_rules.json"
+        "path": "rules/general_ads.json"
+      },
+      {
+        "id": "trackers",
+        "enabled": true,
+        "path": "rules/trackers.json"
+      },
+      {
+        "id": "social_widgets",
+        "enabled": true,
+        "path": "rules/social_widgets.json"
       }
     ]
   },
   
   "action": {
     "default_popup": "popup/popup.html",
-    "default_title": "AdBlock Shield Pro - Ultimate Ad & Tracker Blocker"
+    "default_title": "AdBlock Shield Pro - Ultimate Protection"
   },
   
   "options_page": "options/options.html",
@@ -61,7 +78,5 @@
       "resources": ["rules/*.json"],
       "matches": ["<all_urls>"]
     }
-  ],
-  
-  "minimum_chrome_version": "88"
+  ]
 }

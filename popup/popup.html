@@ -1,62 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdBlock Shield Pro</title>
   <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <h2>🛡️ AdBlock Shield Pro</h2>
-      <p class="author">by Rajarshi Chakraborty</p>
-    </div>
-    
-    <div class="stats-section">
-      <h3>📊 Blocking Stats</h3>
-      <div class="stat-item">
-        <span class="label">Total Blocked:</span>
-        <span class="value" id="totalBlocked">0</span>
+    <header class="header">
+      <div class="logo-section">
+        <div class="logo">🛡️</div>
+        <div class="brand-info">
+          <h1 class="brand-name">AdBlock Shield Pro</h1>
+          <p class="creator">by Rajarshi Chakraborty</p>
+        </div>
       </div>
-      <div class="stat-item">
-        <span class="label">Ads Blocked:</span>
-        <span class="value" id="adsBlocked">0</span>
+      <div class="status-indicator" id="statusIndicator">
+        <div class="status-dot active"></div>
+        <span class="status-text">Active</span>
       </div>
-      <div class="stat-item">
-        <span class="label">Trackers Blocked:</span>
-        <span class="value" id="trackersBlocked">0</span>
+    </header>
+
+    <section class="stats-dashboard">
+      <h2 class="section-title">Protection Statistics</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🚫</div>
+          <div class="stat-info">
+            <span class="stat-number" id="totalBlocked">0</span>
+            <span class="stat-label">Total Blocked</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📺</div>
+          <div class="stat-info">
+            <span class="stat-number" id="adsBlocked">0</span>
+            <span class="stat-label">Ads Blocked</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔒</div>
+          <div class="stat-info">
+            <span class="stat-number" id="trackersBlocked">0</span>
+            <span class="stat-label">Trackers Blocked</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💾</div>
+          <div class="stat-info">
+            <span class="stat-number" id="dataSaved">0MB</span>
+            <span class="stat-label">Data Saved</span>
+          </div>
+        </div>
       </div>
-    </div>
-    
-    <div class="controls">
-      <label class="toggle-switch">
-        <input type="checkbox" id="enableBlocking" checked>
-        <span class="slider"></span>
-        <span class="toggle-label">Enable Blocking</span>
-      </label>
+    </section>
+
+    <section class="controls-section">
+      <h2 class="section-title">Protection Controls</h2>
       
-      <label class="toggle-switch">
-        <input type="checkbox" id="blockAds" checked>
-        <span class="slider"></span>
-        <span class="toggle-label">Block Ads</span>
-      </label>
-      
-      <label class="toggle-switch">
-        <input type="checkbox" id="blockTrackers" checked>
-        <span class="slider"></span>
-        <span class="toggle-label">Block Trackers</span>
-      </label>
-    </div>
-    
-    <div class="actions">
-      <button id="whitelistSite" class="btn btn-secondary">Whitelist Site</button>
-      <button id="openOptions" class="btn btn-primary">Settings</button>
-    </div>
-    
-    <div class="footer">
-      <p>Protecting your privacy since 2025</p>
-    </div>
+      <div class="control-group">
+        <div class="control-item">
+          <div class="toggle-switch">
+            <input type="checkbox" id="masterToggle" checked>
+            <label for="masterToggle" class="switch">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="control-info">
+            <span class="control-label">Master Protection</span>
+            <span class="control-description">Enable/disable all blocking</span>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <div class="toggle-switch">
+            <input type="checkbox" id="youtubeAds" checked>
+            <label for="youtubeAds" class="switch">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="control-info">
+            <span class="control-label">YouTube Ads</span>
+            <span class="control-description">Block all YouTube advertisements</span>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <div class="toggle-switch">
+            <input type="checkbox" id="webTrackers" checked>
+            <label for="webTrackers" class="switch">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="control-info">
+            <span class="control-label">Web Trackers</span>
+            <span class="control-description">Block analytics and tracking scripts</span>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <div class="toggle-switch">
+            <input type="checkbox" id="socialWidgets" checked>
+            <label for="socialWidgets" class="switch">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="control-info">
+            <span class="control-label">Social Widgets</span>
+            <span class="control-description">Block social media buttons</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="actions-section">
+      <button class="action-btn primary" id="whitelistBtn">
+        <span class="btn-icon">✅</span>
+        <span class="btn-text">Whitelist Site</span>
+      </button>
+      <button class="action-btn secondary" id="settingsBtn">
+        <span class="btn-icon">⚙️</span>
+        <span class="btn-text">Settings</span>
+      </button>
+    </section>
+
+    <footer class="footer">
+      <p class="footer-text">Eliminating YouTube lag since 2025</p>
+      <div class="version">v2.0.0</div>
+    </footer>
   </div>
-  
+
   <script src="popup.js"></script>
 </body>
 </html>
