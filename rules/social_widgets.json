@@ -1,0 +1,11 @@
+[
+  {
+    "id": 30,
+    "priority": 1,
+    "action": {"type": "block"},
+    "condition": {
+      "urlFilter": "*://connect.facebook.net/*/sdk.js*",
+      "resourceTypes": ["script"]
+    }
+  }
+]

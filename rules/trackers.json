@@ -1,0 +1,20 @@
+[
+  {
+    "id": 20,
+    "priority": 1,
+    "action": {"type": "block"},
+    "condition": {
+      "urlFilter": "*://google-analytics.com/*",
+      "resourceTypes": ["script", "xmlhttprequest", "image"]
+    }
+  },
+  {
+    "id": 21,
+    "priority": 1,
+    "action": {"type": "block"},
+    "condition": {
+      "urlFilter": "*://facebook.com/tr*",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "ping"]
+    }
+  }
+]
