@@ -1,47 +1,75 @@
 [
   {
-    "id": 1,
+    "id": 40001,
     "priority": 1,
-    "action": {"type": "block"},
-    "condition": {
-      "urlFilter": "*://www.youtube.com/api/stats/ads*",
-      "resourceTypes": ["xmlhttprequest"]
-    }
-  },
-  {
-    "id": 2,
-    "priority": 1,
-    "action": {"type": "block"},
+    "action": {
+      "type": "block"
+    },
     "condition": {
       "urlFilter": "*://googleads.g.doubleclick.net/*",
-      "resourceTypes": ["script", "xmlhttprequest", "image", "sub_frame"]
+      "resourceTypes": [
+        "script",
+        "xmlhttprequest",
+        "image",
+        "sub_frame"
+      ]
     }
   },
   {
-    "id": 3,
+    "id": 40002,
     "priority": 1,
-    "action": {"type": "block"},
+    "action": {
+      "type": "block"
+    },
     "condition": {
       "urlFilter": "*://tpc.googlesyndication.com/*",
-      "resourceTypes": ["script", "xmlhttprequest", "image"]
+      "resourceTypes": [
+        "script",
+        "xmlhttprequest",
+        "image"
+      ]
     }
   },
   {
-    "id": 4,
+    "id": 40003,
     "priority": 1,
-    "action": {"type": "block"},
+    "action": {
+      "type": "block"
+    },
     "condition": {
       "urlFilter": "*://youtube.com/pagead/*",
-      "resourceTypes": ["script", "xmlhttprequest", "image", "sub_frame"]
+      "resourceTypes": [
+        "script",
+        "xmlhttprequest",
+        "image",
+        "sub_frame"
+      ]
     }
   },
   {
-    "id": 5,
+    "id": 40004,
     "priority": 1,
-    "action": {"type": "block"},
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "*://www.youtube.com/api/stats/ads*",
+      "resourceTypes": [
+        "xmlhttprequest"
+      ]
+    }
+  },
+  {
+    "id": 40005,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
     "condition": {
       "urlFilter": "*://s.youtube.com/api/stats/watchtime*",
-      "resourceTypes": ["xmlhttprequest"]
+      "resourceTypes": [
+        "xmlhttprequest"
+      ]
     }
   }
 ]

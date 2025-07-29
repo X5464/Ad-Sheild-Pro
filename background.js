@@ -26,10 +26,8 @@ class AdBlockShieldPro {
         // Load saved data
         await this.loadData();
         
-        // Setup declarativeNetRequest feedback
-        chrome.declarativeNetRequest.onRuleMatchedDebug.addListener((details) => {
-            this.recordBlock(details);
-        });
+        // Monitor blocked requests
+        this.setupRequestMonitoring();
         
         // Setup badge
         this.updateBadge();
@@ -48,6 +46,28 @@ class AdBlockShieldPro {
         chrome.alarms.onAlarm.addListener((alarm) => {
             if (alarm.name === 'updateStats') {
                 this.updateBadge();
+                this.saveData();
+            }
+        });
+    }
+    
+    setupRequestMonitoring() {
+        // Monitor blocked requests using webRequest if available
+        if (chrome.webRequest) {
+            chrome.webRequest.onBeforeRequest.addListener(
+                (details) => {
+                    this.recordBlock(details.url);
+                    return { cancel: false };
+                },
+                { urls: ["<all_urls>"] },
+                ["requestBody"]
+            );
+        }
+        
+        // Alternative: Monitor via content script messages
+        chrome.runtime.onMessage.addListener((message) => {
+            if (message.type === 'blocked') {
+                this.recordBlock(message.url, message.category);
             }
         });
     }
@@ -73,23 +93,28 @@ class AdBlockShieldPro {
         }
     }
     
-    recordBlock(details) {
+    recordBlock(url, category = null) {
         this.stats.totalBlocked++;
         
-        const url = details.request.url;
-        if (url.includes('youtube.com') || url.includes('googlevideo.com')) {
+        if (category === 'youtube' || url.includes('youtube.com') || url.includes('googlevideo.com')) {
             this.stats.youtubeAdsBlocked++;
         } else if (url.includes('doubleclick') || url.includes('googlesyndication') || url.includes('amazon-adsystem')) {
             this.stats.adsBlocked++;
-        } else {
+        } else if (url.includes('google-analytics') || url.includes('facebook.com/tr') || url.includes('mixpanel')) {
             this.stats.trackersBlocked++;
+        } else {
+            this.stats.adsBlocked++;
         }
         
         // Estimate data saved (average 100KB per blocked request)
         this.stats.dataSaved += 0.1;
         
         this.updateBadge();
-        this.saveData();
+        
+        // Save data every 10 blocks to avoid too frequent writes
+        if (this.stats.totalBlocked % 10 === 0) {
+            this.saveData();
+        }
     }
     
     updateBadge() {
@@ -114,6 +139,11 @@ class AdBlockShieldPro {
                     
                 case 'getStats':
                     sendResponse(this.stats);
+                    break;
+                    
+                case 'blocked':
+                    this.recordBlock(message.url, message.category);
+                    sendResponse({success: true});
                     break;
                     
                 case 'settingsChanged':
