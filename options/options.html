@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBlock Shield Pro - Settings</title>
+    <link rel="stylesheet" href="options.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="brand-section">
+                <div class="logo">🛡️</div>
+                <div class="brand-info">
+                    <h1>AdBlock Shield Pro - Settings</h1>
+                    <p class="author">Created by Rajarshi Chakraborty</p>
+                </div>
+            </div>
+            <div class="version-badge">v2.0.0</div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="general">🔧 General</button>
+            <button class="tab-btn" data-tab="blocking">🛡️ Blocking</button>
+            <button class="tab-btn" data-tab="whitelist">✅ Whitelist</button>
+            <button class="tab-btn" data-tab="stats">📊 Statistics</button>
+        </nav>
+
+        <main class="content">
+            <!-- General Settings Tab -->
+            <section class="tab-content active" id="general">
+                <div class="card">
+                    <h2>🔧 General Settings</h2>
+                    
+                    <div class="setting-group">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Master Protection</h3>
+                                <p>Enable or disable all ad and tracker blocking</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="masterToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Show Badge Counter</h3>
+                                <p>Display blocked items count on extension icon</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="showBadge" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Show Notifications</h3>
+                                <p>Display notifications when ads are blocked</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="showNotifications">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Blocking Settings Tab -->
+            <section class="tab-content" id="blocking">
+                <div class="card">
+                    <h2>🛡️ Blocking Categories</h2>
+                    
+                    <div class="setting-group">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>YouTube Ads</h3>
+                                <p>Block all YouTube video ads and overlays</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="blockYouTubeAds" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Web Advertisements</h3>
+                                <p>Block banner ads, pop-ups, and sponsored content</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="blockWebAds" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Tracking Scripts</h3>
+                                <p>Block analytics, pixels, and behavioral tracking</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="blockTrackers" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h3>Social Media Widgets</h3>
+                                <p>Block like buttons and social sharing widgets</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="blockSocialWidgets" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Whitelist Tab -->
+            <section class="tab-content" id="whitelist">
+                <div class="card">
+                    <h2>✅ Whitelisted Sites</h2>
+                    
+                    <div class="whitelist-section">
+                        <div class="add-site-form">
+                            <input type="text" id="whitelistInput" placeholder="Enter domain (e.g., example.com)" class="site-input">
+                            <button id="addSiteBtn" class="add-btn">Add Site</button>
+                        </div>
+                        
+                        <div class="whitelist-list" id="whitelistList">
+                            <div class="empty-state">
+                                <p>🔓 No whitelisted sites yet</p>
+                                <p>Add sites where you want to allow ads</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Tab -->
+            <section class="tab-content" id="stats">
+                <div class="card">
+                    <h2>📊 Protection Statistics</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">🚫</div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="totalBlockedStat">0</div>
+                                <div class="stat-label">Total Blocked</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">📺</div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="youtubeAdsStat">0</div>
+                                <div class="stat-label">YouTube Ads</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">🔒</div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="trackersStat">0</div>
+                                <div class="stat-label">Trackers Blocked</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">💾</div>
+                            <div class="stat-info">
+                                <div class="stat-number" id="dataSavedStat">0 MB</div>
+                                <div class="stat-label">Data Saved</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reset-section">
+                        <button id="resetStatsBtn" class="reset-btn">🔄 Reset All Statistics</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Made with ❤️ by <strong>Rajarshi Chakraborty</strong></p>
+            <p><a href="https://github.com/X5464/Ad-Sheild-Pro" target="_blank">GitHub Repository</a></p>
+        </footer>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+</html>
