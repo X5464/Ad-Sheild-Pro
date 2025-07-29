@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBlock Shield Pro - Professional Ad & Tracker Blocker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="extension-container">
+        <!-- Extension Header -->
+        <header class="extension-header">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <h1>AdBlock Shield Pro</h1>
+                </div>
+                <div class="protection-indicator">
+                    <div class="protection-status active" id="protectionStatus">
+                        <span class="status-dot"></span>
+                        <span class="status-text">PROTECTED</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Interface -->
+        <main class="extension-main">
+            <!-- Dashboard View -->
+            <section id="dashboardView" class="view active">
+                <div class="dashboard-stats">
+                    <div class="stat-row primary-stats">
+                        <div class="stat-card featured">
+                            <div class="stat-value" id="adsBlockedToday">15,847</div>
+                            <div class="stat-label">Ads Blocked Today</div>
+                            <div class="stat-trend positive">+43%</div>
+                        </div>
+                        <div class="stat-card featured">
+                            <div class="stat-value" id="trackersBlockedToday">8,923</div>
+                            <div class="stat-label">Trackers Blocked Today</div>
+                            <div class="stat-trend positive">+38%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-row secondary-stats">
+                        <div class="stat-card">
+                            <div class="stat-value" id="dataSaved">1.4GB</div>
+                            <div class="stat-label">Data Saved</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="pageLoadImprovement">43%</div>
+                            <div class="stat-label">Speed Boost</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="batteryImprovement">22%</div>
+                            <div class="stat-label">Battery Saved</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalBlocked">45,231</div>
+                            <div class="stat-label">Total Blocked</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="current-site-analysis">
+                    <h3>Current Site Analysis</h3>
+                    <div class="site-info">
+                        <div class="site-header">
+                            <span class="site-domain" id="currentSiteDomain">news-website.com</span>
+                            <div class="site-actions">
+                                <button class="btn btn--sm btn--outline" id="whitelistSite">Whitelist</button>
+                                <button class="btn btn--sm btn--primary" id="blockMore">Advanced</button>
+                            </div>
+                        </div>
+                        <div class="blocking-summary">
+                            <div class="block-categories">
+                                <div class="category-stat">
+                                    <span class="category-count" id="siteAdsBlocked">23</span>
+                                    <span class="category-label">Ads</span>
+                                </div>
+                                <div class="category-stat">
+                                    <span class="category-count" id="siteTrackersBlocked">15</span>
+                                    <span class="category-label">Trackers</span>
+                                </div>
+                                <div class="category-stat">
+                                    <span class="category-count" id="siteSocialBlocked">8</span>
+                                    <span class="category-label">Social</span>
+                                </div>
+                            </div>
+                            <div class="performance-metrics">
+                                <div class="metric">
+                                    <span class="metric-label">Load Time:</span>
+                                    <span class="metric-value improved" id="currentLoadTime">0.8s</span>
+                                    <span class="metric-original">(was 3.2s)</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Data Usage:</span>
+                                    <span class="metric-value improved">2.1MB</span>
+                                    <span class="metric-original">(was 4.8MB)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blocking-toggles">
+                    <h3>Protection Categories</h3>
+                    <div class="toggle-grid">
+                        <div class="toggle-item">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleAds" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <div class="toggle-content">
+                                <div class="toggle-title">Advertisement Blocking</div>
+                                <div class="toggle-description">Block display ads, banners, and sponsored content</div>
+                                <div class="toggle-stats">94% effective • 15,847 blocked</div>
+                            </div>
+                        </div>
+                        <div class="toggle-item">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleTrackers" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <div class="toggle-content">
+                                <div class="toggle-title">Tracker Blocking</div>
+                                <div class="toggle-description">Block analytics and behavioral tracking</div>
+                                <div class="toggle-stats">91% effective • 8,923 blocked</div>
+                            </div>
+                        </div>
+                        <div class="toggle-item">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleSocial" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <div class="toggle-content">
+                                <div class="toggle-title">Social Media Tracking</div>
+                                <div class="toggle-description">Block social tracking widgets</div>
+                                <div class="toggle-stats">88% effective • 3,421 blocked</div>
+                            </div>
+                        </div>
+                        <div class="toggle-item">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleAnnoyances" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <div class="toggle-content">
+                                <div class="toggle-title">Malware Protection</div>
+                                <div class="toggle-description">Block malicious domains and scripts</div>
+                                <div class="toggle-stats">96% effective • 12 blocked</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technical Features View -->
+            <section id="featuresView" class="view">
+                <div class="features-header">
+                    <h2>Technical Features</h2>
+                    <div class="manifest-badge">
+                        <span class="badge badge--success">Manifest V3</span>
+                    </div>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="2"/>
+                                <path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h4>DeclarativeNetRequest API</h4>
+                            <p>High-performance request blocking using Chrome's latest API</p>
+                            <span class="feature-status">Full Support</span>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="currentColor" stroke-width="2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9" stroke="currentColor" stroke-width="2"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Cross-Browser Compatibility</h4>
+                            <p>Works seamlessly on Chrome, Firefox, Safari, and Edge</p>
+                            <span class="feature-status">Full Support</span>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/>
+                                <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2"/>
+                                <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" stroke-width="2"/>
+                                <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Multiple Filter Lists</h4>
+                            <p>EasyList, EasyPrivacy, AdGuard, and custom rules support</p>
+                            <span class="feature-status">300,000+ Rules</span>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Real-time Performance</h4>
+                            <p>Live blocking statistics and performance monitoring</p>
+                            <span class="feature-status">< 1ms Response</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="compatibility-matrix">
+                    <h3>Platform Compatibility Matrix</h3>
+                    <div class="matrix-table">
+                        <div class="matrix-header">
+                            <div class="matrix-cell">Feature</div>
+                            <div class="matrix-cell">Windows</div>
+                            <div class="matrix-cell">Mac</div>
+                            <div class="matrix-cell">Android</div>
+                        </div>
+                        <div class="matrix-row">
+                            <div class="matrix-cell">Ad Blocking</div>
+                            <div class="matrix-cell"><span class="status-indicator success">Full</span></div>
+                            <div class="matrix-cell"><span class="status-indicator success">Full</span></div>
+                            <div class="matrix-cell"><span class="status-indicator success">Full</span></div>
+                        </div>
+                        <div class="matrix-row">
+                            <div class="matrix-cell">Custom Rules</div>
+                            <div class="matrix-cell"><span class="status-indicator success">Full</span></div>
+                            <div class="matrix-cell"><span class="status-indicator success">Full</span></div>
+                            <div class="matrix-cell"><span class="status-indicator warning">Limited</span></div>
+                        </div>
+                        <div class="matrix-row">
+                            <div class="matrix-cell">Real-time Stats</div>
+                            <div class="matrix-cell"><span class="status-indicator success">Full</span></div>
+                            <div class="matrix-cell"><span class="status-indicator success">Full</span></div>
+                            <div class="matrix-cell"><span class="status-indicator success">Full</span></div>
+                        </div>
+                        <div class="matrix-row">
+                            <div class="matrix-cell">Auto-updates</div>
+                            <div class="matrix-cell"><span class="status-indicator success">Full</span></div>
+                            <div class="matrix-cell"><span class="status-indicator success">Full</span></div>
+                            <div class="matrix-cell"><span class="status-indicator warning">Manual</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics View -->
+            <section id="statisticsView" class="view">
+                <div class="statistics-header">
+                    <h2>Statistics & Analytics</h2>
+                    <div class="time-selector">
+                        <select id="statsTimeRange" class="form-control">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="all">All Time</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="chart-container" style="position: relative; height: 250px;">
+                    <canvas id="blockingChart"></canvas>
+                </div>
+                
+                <div class="stats-breakdown">
+                    <div class="breakdown-section">
+                        <h3>Most Blocked Domains</h3>
+                        <div class="domain-list" id="topBlockedDomains">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="breakdown-section">
+                        <h3>Category Performance</h3>
+                        <div class="category-breakdown" id="categoryBreakdown">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Installation Guide View -->
+            <section id="installationView" class="view">
+                <div class="installation-header">
+                    <h2>Installation Guide</h2>
+                    <div class="platform-selector">
+                        <button class="platform-tab active" data-platform="windows">Windows</button>
+                        <button class="platform-tab" data-platform="mac">Mac</button>
+                        <button class="platform-tab" data-platform="android">Android</button>
+                    </div>
+                </div>
+                
+                <div class="installation-content">
+                    <!-- Windows Installation -->
+                    <div id="windowsInstallation" class="platform-content active">
+                        <div class="platform-intro">
+                            <h3>Windows Installation</h3>
+                            <p>Choose your preferred browser for quick and easy installation:</p>
+                        </div>
+                        
+                        <div class="browser-options">
+                            <div class="browser-option" data-browser="chrome">
+                                <div class="browser-header">
+                                    <div class="browser-info">
+                                        <h4>Google Chrome</h4>
+                                        <div class="browser-meta">
+                                            <span class="compatibility-badge full">Full Support</span>
+                                            <span class="install-time">5 minutes</span>
+                                            <span class="difficulty easy">Easy</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="installation-steps" id="chromeSteps">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="browser-option" data-browser="firefox">
+                                <div class="browser-header">
+                                    <div class="browser-info">
+                                        <h4>Mozilla Firefox</h4>
+                                        <div class="browser-meta">
+                                            <span class="compatibility-badge full">Full Support</span>
+                                            <span class="install-time">3 minutes</span>
+                                            <span class="difficulty easy">Easy</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="installation-steps" id="firefoxSteps">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="browser-option" data-browser="edge">
+                                <div class="browser-header">
+                                    <div class="browser-info">
+                                        <h4>Microsoft Edge</h4>
+                                        <div class="browser-meta">
+                                            <span class="compatibility-badge full">Full Support</span>
+                                            <span class="install-time">5 minutes</span>
+                                            <span class="difficulty easy">Easy</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="installation-steps" id="edgeSteps">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mac Installation -->
+                    <div id="macInstallation" class="platform-content">
+                        <div class="platform-intro">
+                            <h3>Mac Installation</h3>
+                            <p>Install AdBlock Shield Pro on your Mac with these step-by-step guides:</p>
+                        </div>
+                        
+                        <div class="browser-options">
+                            <div class="browser-option" data-browser="safari">
+                                <div class="browser-header">
+                                    <div class="browser-info">
+                                        <h4>Safari (2025 Web Extensions)</h4>
+                                        <div class="browser-meta">
+                                            <span class="compatibility-badge full">Full Support</span>
+                                            <span class="install-time">10 minutes</span>
+                                            <span class="difficulty medium">Medium</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="installation-steps" id="safariSteps">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="browser-option" data-browser="chrome-mac">
+                                <div class="browser-header">
+                                    <div class="browser-info">
+                                        <h4>Google Chrome</h4>
+                                        <div class="browser-meta">
+                                            <span class="compatibility-badge full">Full Support</span>
+                                            <span class="install-time">5 minutes</span>
+                                            <span class="difficulty easy">Easy</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="installation-steps" id="chromeMacSteps">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="browser-option" data-browser="firefox-mac">
+                                <div class="browser-header">
+                                    <div class="browser-info">
+                                        <h4>Mozilla Firefox</h4>
+                                        <div class="browser-meta">
+                                            <span class="compatibility-badge full">Full Support</span>
+                                            <span class="install-time">3 minutes</span>
+                                            <span class="difficulty easy">Easy</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="installation-steps" id="firefoxMacSteps">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Android Installation -->
+                    <div id="androidInstallation" class="platform-content">
+                        <div class="platform-intro">
+                            <h3>Android Installation</h3>
+                            <p>Get ad-blocking on your Android device with these mobile-optimized browsers:</p>
+                        </div>
+                        
+                        <div class="browser-options">
+                            <div class="browser-option" data-browser="kiwi">
+                                <div class="browser-header">
+                                    <div class="browser-info">
+                                        <h4>Kiwi Browser (Recommended)</h4>
+                                        <div class="browser-meta">
+                                            <span class="compatibility-badge full">Full Support</span>
+                                            <span class="install-time">5 minutes</span>
+                                            <span class="difficulty easy">Easy</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="installation-steps" id="kiwiSteps">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="browser-option" data-browser="firefox-android">
+                                <div class="browser-header">
+                                    <div class="browser-info">
+                                        <h4>Firefox for Android</h4>
+                                        <div class="browser-meta">
+                                            <span class="compatibility-badge full">Full Support</span>
+                                            <span class="install-time">3 minutes</span>
+                                            <span class="difficulty easy">Easy</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="installation-steps" id="firefoxAndroidSteps">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="browser-option" data-browser="edge-canary">
+                                <div class="browser-header">
+                                    <div class="browser-info">
+                                        <h4>Microsoft Edge Canary</h4>
+                                        <div class="browser-meta">
+                                            <span class="compatibility-badge limited">Limited</span>
+                                            <span class="install-time">8 minutes</span>
+                                            <span class="difficulty medium">Medium</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="installation-steps" id="edgeCanarySteps">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="installation-footer">
+                    <div class="cta-section">
+                        <h3>Ready to Start Blocking?</h3>
+                        <p>Join millions of users who trust AdBlock Shield Pro for comprehensive privacy protection.</p>
+                        <div class="cta-buttons">
+                            <button class="btn btn--primary btn--lg" id="downloadExtension">Download Extension</button>
+                            <button class="btn btn--outline btn--lg" id="viewDocumentation">View Documentation</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings View -->
+            <section id="settingsView" class="view">
+                <div class="settings-header">
+                    <h2>Advanced Settings</h2>
+                </div>
+                
+                <div class="settings-sections">
+                    <div class="settings-section">
+                        <h3>Blocking Strictness</h3>
+                        <div class="strictness-selector">
+                            <label class="strictness-option">
+                                <input type="radio" name="strictness" value="lenient">
+                                <div class="option-content">
+                                    <div class="option-title">Lenient</div>
+                                    <div class="option-description">Basic blocking, may allow some trackers</div>
+                                </div>
+                            </label>
+                            <label class="strictness-option">
+                                <input type="radio" name="strictness" value="standard" checked>
+                                <div class="option-content">
+                                    <div class="option-title">Standard</div>
+                                    <div class="option-description">Balanced blocking for most users</div>
+                                </div>
+                            </label>
+                            <label class="strictness-option">
+                                <input type="radio" name="strictness" value="strict">
+                                <div class="option-content">
+                                    <div class="option-title">Strict</div>
+                                    <div class="option-description">Aggressive blocking, may break some sites</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Custom Rules</h3>
+                        <div class="custom-rules-editor">
+                            <textarea id="customRules" class="form-control" rows="6" placeholder="Enter custom blocking rules, one per line&#10;Example: ||ads.example.com^$third-party&#10;Example: @@||trusted-site.com^"></textarea>
+                            <div class="editor-actions">
+                                <button class="btn btn--sm btn--outline" id="validateRules">Validate</button>
+                                <button class="btn btn--sm btn--primary" id="saveRules">Save Rules</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Whitelist Management</h3>
+                        <div class="list-management">
+                            <div class="list-input">
+                                <input type="text" id="whitelistInput" class="form-control" placeholder="Add domain to whitelist (e.g., example.com)">
+                                <button class="btn btn--primary btn--sm" id="addToWhitelist">Add</button>
+                            </div>
+                            <div class="whitelist-sites" id="whitelistSites">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Navigation Tabs -->
+        <nav class="navigation-tabs">
+            <button class="nav-tab active" data-view="dashboardView">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                    <rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Dashboard
+            </button>
+            <button class="nav-tab" data-view="featuresView">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Features
+            </button>
+            <button class="nav-tab" data-view="statisticsView">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <line x1="18" y1="20" x2="18" y2="10" stroke="currentColor" stroke-width="2"/>
+                    <line x1="12" y1="20" x2="12" y2="4" stroke="currentColor" stroke-width="2"/>
+                    <line x1="6" y1="20" x2="6" y2="14" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Stats
+            </button>
+            <button class="nav-tab" data-view="installationView">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/>
+                    <polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/>
+                    <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Install
+            </button>
+            <button class="nav-tab" data-view="settingsView">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Settings
+            </button>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
