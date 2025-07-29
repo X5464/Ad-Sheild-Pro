@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AdBlock Shield Pro - Effectiveness Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .test-container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        .test-item { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .blocked { background: #d4edda; border-color: #c3e6cb; }
+        .not-blocked { background: #f8d7da; border-color: #f5c6cb; }
+        .ad-test { width: 300px; height: 250px; background: #ff0000; color: white; display: flex; align-items: center; justify-content: center; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🛡️ AdBlock Shield Pro - Effectiveness Test</h1>
+        <p>This page tests if your ad blocker is working properly. Red boxes should be hidden if blocking is effective.</p>
+        
+        <div class="test-item">
+            <h3>Test 1: Generic Ad Classes</h3>
+            <div class="ad-test ad-banner">GENERIC AD - Should be blocked</div>
+            <div class="ad-test advertisement">ADVERTISEMENT - Should be blocked</div>
+        </div>
+        
+        <div class="test-item">
+            <h3>Test 2: Tracking Scripts</h3>
+            <div id="google-analytics-test" class="ad-test">Google Analytics - Should be blocked</div>
+            <div id="facebook-pixel-test" class="ad-test">Facebook Pixel - Should be blocked</div>
+        </div>
+        
+        <div class="test-item">
+            <h3>Test 3: Social Media Widgets</h3>
+            <div class="ad-test social-widget">Social Widget - Should be blocked</div>
+        </div>
+        
+        <div class="test-item">
+            <h3>Results</h3>
+            <p id="results">Loading test results...</p>
+        </div>
+    </div>
+    
+    <script>
+        // Test effectiveness
+        setTimeout(() => {
+            let blockedCount = 0;
+            let totalTests = 5;
+            
+            const tests = [
+                '.ad-banner', '.advertisement', '#google-analytics-test', 
+                '#facebook-pixel-test', '.social-widget'
+            ];
+            
+            tests.forEach(selector => {
+                const element = document.querySelector(selector);
+                const isHidden = element && (
+                    element.style.display === 'none' ||
+                    element.style.visibility === 'hidden' ||
+                    element.style.opacity === '0' ||
+                    element.offsetParent === null
+                );
+                
+                if (isHidden) {
+                    blockedCount++;
+                }
+            });
+            
+            const effectiveness = Math.round((blockedCount / totalTests) * 100);
+            const resultsEl = document.getElementById('results');
+            
+            if (effectiveness >= 80) {
+                resultsEl.innerHTML = `✅ <strong>Excellent!</strong> ${effectiveness}% blocking effectiveness. Your AdBlock Shield Pro is working great!`;
+                resultsEl.parentElement.className += ' blocked';
+            } else if (effectiveness >= 50) {
+                resultsEl.innerHTML = `⚠️ <strong>Good:</strong> ${effectiveness}% blocking effectiveness. Some ads may still show.`;
+                resultsEl.parentElement.className += ' test-item';
+            } else {
+                resultsEl.innerHTML = `❌ <strong>Poor:</strong> ${effectiveness}% blocking effectiveness. Check your extension settings.`;
+                resultsEl.parentElement.className += ' not-blocked';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

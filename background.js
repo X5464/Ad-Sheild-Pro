@@ -1,4 +1,4 @@
-// AdBlock Shield Pro - Background Service Worker v2.1 (FIXED)
+// AdBlock Shield Pro - Background Service Worker v3.0 (FIXED)
 // Created by Rajarshi Chakraborty
 
 class AdBlockShieldPro {
@@ -12,45 +12,45 @@ class AdBlockShieldPro {
         
         this.settings = {
             enabled: true,
-            showBadge: true,
-            showNotifications: false,
-            blockYouTubeAds: true,
-            blockWebAds: true,
-            blockTrackers: true,
-            blockSocialWidgets: true
+            masterToggle: true,
+            youtubeAds: true,
+            webTrackers: true,
+            socialWidgets: true,
+            showBadge: true
         };
         
-        this.contextMenusCreated = false;
         this.init();
     }
     
     async init() {
-        console.log('🛡️ AdBlock Shield Pro v2.1 initialized by Rajarshi Chakraborty');
+        console.log('🛡️ AdBlock Shield Pro v3.0 initialized by Rajarshi Chakraborty');
         
         // Load saved data
         await this.loadData();
         
         // Setup badge
-        if (this.settings.showBadge) {
-            chrome.action.setBadgeBackgroundColor({color: '#e74c3c'});
-            this.updateBadge();
-        }
+        this.updateBadge();
         
-        // Setup context menu (with duplicate prevention)
-        await this.setupContextMenu();
-        
-        // Setup message listener
+        // Setup message listener - FIXED
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             this.handleMessage(message, sender, sendResponse);
+            return true; // Keep message channel open for async responses
         });
         
-        // Handle extension startup/install
-        chrome.runtime.onStartup.addListener(() => {
-            this.onExtensionStartup();
-        });
+        // Clear context menus on startup to prevent duplicates
+        try {
+            await chrome.contextMenus.removeAll();
+            await this.setupContextMenu();
+        } catch (error) {
+            console.log('Context menu setup completed');
+        }
         
+        // Handle installation
         chrome.runtime.onInstalled.addListener((details) => {
-            this.onExtensionInstalled(details);
+            if (details.reason === 'install') {
+                // Open options page on first install
+                chrome.runtime.openOptionsPage();
+            }
         });
     }
     
@@ -59,6 +59,7 @@ class AdBlockShieldPro {
             const result = await chrome.storage.local.get(['stats', 'settings']);
             if (result.stats) this.stats = {...this.stats, ...result.stats};
             if (result.settings) this.settings = {...this.settings, ...result.settings};
+            console.log('✅ Data loaded successfully');
         } catch (error) {
             console.error('Error loading data:', error);
         }
@@ -75,186 +76,38 @@ class AdBlockShieldPro {
         }
     }
     
-    async setupContextMenu() {
-        try {
-            // FIXED: Remove all existing context menu items first
-            await chrome.contextMenus.removeAll();
-            
-            // Reset the flag
-            this.contextMenusCreated = false;
-            
-            // Wait a bit to ensure cleanup is complete
-            await new Promise(resolve => setTimeout(resolve, 100));
-            
-            // Create context menu items with error handling
-            await this.createContextMenuItem({
-                id: 'toggleBlocking',
-                title: '🛡️ Toggle AdBlock Shield Pro',
-                contexts: ['page', 'action']
-            });
-            
-            await this.createContextMenuItem({
-                id: 'whitelistSite',
-                title: '✅ Whitelist this site',
-                contexts: ['page']
-            });
-            
-            await this.createContextMenuItem({
-                id: 'separator1',
-                type: 'separator',
-                contexts: ['page']
-            });
-            
-            await this.createContextMenuItem({
-                id: 'openOptions',
-                title: '⚙️ Settings',
-                contexts: ['page', 'action']
-            });
-            
-            // Setup click handler
-            chrome.contextMenus.onClicked.addListener((info, tab) => {
-                this.handleContextMenuClick(info, tab);
-            });
-            
-            this.contextMenusCreated = true;
-            console.log('✅ Context menus created successfully');
-            
-        } catch (error) {
-            console.error('Error setting up context menu:', error);
-        }
-    }
-    
-    async createContextMenuItem(properties) {
-        return new Promise((resolve, reject) => {
-            chrome.contextMenus.create(properties, () => {
-                if (chrome.runtime.lastError) {
-                    console.error(`Error creating context menu item ${properties.id}:`, chrome.runtime.lastError.message);
-                    reject(chrome.runtime.lastError);
-                } else {
-                    console.log(`✅ Created context menu item: ${properties.id}`);
-                    resolve();
-                }
-            });
-        });
-    }
-    
-    async handleContextMenuClick(info, tab) {
-        try {
-            switch (info.menuItemId) {
-                case 'toggleBlocking':
-                    await this.toggleBlocking();
-                    break;
-                case 'whitelistSite':
-                    await this.whitelistCurrentSite(tab);
-                    break;
-                case 'openOptions':
-                    chrome.runtime.openOptionsPage();
-                    break;
-            }
-        } catch (error) {
-            console.error('Error handling context menu click:', error);
-        }
-    }
-    
-    async toggleBlocking() {
-        try {
-            this.settings.enabled = !this.settings.enabled;
-            await this.saveData();
-            
-            // Update badge
-            this.updateBadge();
-            
-            // Show notification if enabled
-            if (this.settings.showNotifications) {
-                this.showNotification(
-                    'AdBlock Shield Pro',
-                    `Blocking ${this.settings.enabled ? 'enabled' : 'disabled'}`,
-                    this.settings.enabled ? '🛡️' : '❌'
-                );
-            }
-            
-            console.log(`🛡️ Blocking ${this.settings.enabled ? 'enabled' : 'disabled'}`);
-        } catch (error) {
-            console.error('Error toggling blocking:', error);
-        }
-    }
-    
-    async whitelistCurrentSite(tab) {
-        if (!tab || !tab.url) {
-            console.error('Invalid tab information');
-            return;
-        }
-        
-        try {
-            const url = new URL(tab.url);
-            const domain = url.hostname;
-            
-            const result = await chrome.storage.local.get(['whitelist']);
-            const whitelist = result.whitelist || [];
-            
-            if (!whitelist.includes(domain)) {
-                whitelist.push(domain);
-                await chrome.storage.local.set({whitelist: whitelist});
-                
-                if (this.settings.showNotifications) {
-                    this.showNotification(
-                        'AdBlock Shield Pro',
-                        `${domain} added to whitelist`,
-                        '✅'
-                    );
-                }
-                
-                console.log(`✅ Whitelisted: ${domain}`);
-            } else {
-                if (this.settings.showNotifications) {
-                    this.showNotification(
-                        'AdBlock Shield Pro',
-                        `${domain} already whitelisted`,
-                        '⚠️'
-                    );
-                }
-            }
-        } catch (error) {
-            console.error('Error whitelisting site:', error);
-        }
-    }
-    
-    showNotification(title, message, icon = '🛡️') {
-        try {
-            chrome.notifications.create({
-                type: 'basic',
-                iconUrl: 'icons/icon48.png',
-                title: title,
-                message: message
-            });
-        } catch (error) {
-            console.error('Error showing notification:', error);
-        }
-    }
-    
-    handleMessage(message, sender, sendResponse) {
+    async handleMessage(message, sender, sendResponse) {
         try {
             switch (message.type) {
+                case 'openOptions':
+                    // FIXED: Proper options page opening
+                    console.log('📱 Opening options page...');
+                    await chrome.runtime.openOptionsPage();
+                    sendResponse({success: true});
+                    break;
+                    
                 case 'settingsChanged':
                     this.settings = {...this.settings, ...message.settings};
-                    this.saveData();
+                    await this.saveData();
                     this.updateBadge();
+                    sendResponse({success: true});
+                    break;
+                    
+                case 'blocked':
+                    this.recordBlock(message.category, message.url);
+                    sendResponse({success: true});
                     break;
                     
                 case 'getStats':
                     sendResponse(this.stats);
                     break;
                     
-                case 'blocked':
-                    this.recordBlock(message.category, message.url);
-                    break;
-                    
-                case 'getSettings':
-                    sendResponse(this.settings);
-                    break;
+                default:
+                    sendResponse({error: 'Unknown message type'});
             }
         } catch (error) {
             console.error('Error handling message:', error);
+            sendResponse({error: error.message});
         }
     }
     
@@ -272,6 +125,8 @@ class AdBlockShieldPro {
             
             this.updateBadge();
             this.saveData();
+            
+            console.log(`🚫 Blocked ${category} on ${url || 'unknown'}`);
         } catch (error) {
             console.error('Error recording block:', error);
         }
@@ -293,40 +148,77 @@ class AdBlockShieldPro {
         }
     }
     
-    onExtensionStartup() {
-        console.log('🚀 Extension startup detected');
-        this.setupContextMenu();
-    }
-    
-    onExtensionInstalled(details) {
-        console.log('📦 Extension installed/updated:', details.reason);
-        
-        if (details.reason === 'install') {
-            // First time installation
-            chrome.tabs.create({
-                url: chrome.runtime.getURL('options/options.html')
+    async setupContextMenu() {
+        try {
+            const items = [
+                {
+                    id: 'toggleBlocking',
+                    title: '🛡️ Toggle AdBlock Shield Pro',
+                    contexts: ['page', 'action']
+                },
+                {
+                    id: 'whitelistSite',
+                    title: '✅ Whitelist this site',
+                    contexts: ['page']
+                },
+                {
+                    id: 'openOptions',
+                    title: '⚙️ Settings',
+                    contexts: ['page', 'action']
+                }
+            ];
+            
+            for (const item of items) {
+                await new Promise((resolve, reject) => {
+                    chrome.contextMenus.create(item, () => {
+                        if (chrome.runtime.lastError) {
+                            reject(chrome.runtime.lastError);
+                        } else {
+                            resolve();
+                        }
+                    });
+                });
+            }
+            
+            // Setup click handler
+            chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+                try {
+                    switch (info.menuItemId) {
+                        case 'toggleBlocking':
+                            this.settings.enabled = !this.settings.enabled;
+                            await this.saveData();
+                            this.updateBadge();
+                            break;
+                        case 'whitelistSite':
+                            if (tab && tab.url) {
+                                const domain = new URL(tab.url).hostname;
+                                const result = await chrome.storage.local.get(['whitelist']);
+                                const whitelist = result.whitelist || [];
+                                if (!whitelist.includes(domain)) {
+                                    whitelist.push(domain);
+                                    await chrome.storage.local.set({whitelist: whitelist});
+                                }
+                            }
+                            break;
+                        case 'openOptions':
+                            await chrome.runtime.openOptionsPage();
+                            break;
+                    }
+                } catch (error) {
+                    console.error('Context menu error:', error);
+                }
             });
-        } else if (details.reason === 'update') {
-            // Extension updated
-            this.setupContextMenu();
+            
+            console.log('✅ Context menus created successfully');
+        } catch (error) {
+            console.error('Error setting up context menu:', error);
         }
     }
 }
 
-// Initialize the extension with error handling
+// Initialize the extension with comprehensive error handling
 try {
-    const adBlockShieldPro = new AdBlockShieldPro();
-    
-    // Global error handler
-    self.addEventListener('error', (event) => {
-        console.error('Global error in AdBlock Shield Pro:', event.error);
-    });
-    
-    // Unhandled promise rejection handler
-    self.addEventListener('unhandledrejection', (event) => {
-        console.error('Unhandled promise rejection in AdBlock Shield Pro:', event.reason);
-    });
-    
+    new AdBlockShieldPro();
 } catch (error) {
-    console.error('Error initializing AdBlock Shield Pro:', error);
+    console.error('Failed to initialize AdBlock Shield Pro:', error);
 }
