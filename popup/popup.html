@@ -2,35 +2,60 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <style>
-    body { width: 350px; padding: 20px; font-family: Arial, sans-serif; }
-    .header { text-align: center; margin-bottom: 20px; }
-    .stats { background: #f5f5f5; padding: 15px; border-radius: 8px; }
-    .toggle { margin: 10px 0; }
-    button { padding: 8px 16px; margin: 5px; cursor: pointer; }
-  </style>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="header">
-    <h2>🛡️ AdBlock Shield Pro</h2>
-    <p>Created by Rajarshi Chakraborty</p>
+  <div class="container">
+    <div class="header">
+      <h2>🛡️ AdBlock Shield Pro</h2>
+      <p class="author">by Rajarshi Chakraborty</p>
+    </div>
+    
+    <div class="stats-section">
+      <h3>📊 Blocking Stats</h3>
+      <div class="stat-item">
+        <span class="label">Total Blocked:</span>
+        <span class="value" id="totalBlocked">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="label">Ads Blocked:</span>
+        <span class="value" id="adsBlocked">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="label">Trackers Blocked:</span>
+        <span class="value" id="trackersBlocked">0</span>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <label class="toggle-switch">
+        <input type="checkbox" id="enableBlocking" checked>
+        <span class="slider"></span>
+        <span class="toggle-label">Enable Blocking</span>
+      </label>
+      
+      <label class="toggle-switch">
+        <input type="checkbox" id="blockAds" checked>
+        <span class="slider"></span>
+        <span class="toggle-label">Block Ads</span>
+      </label>
+      
+      <label class="toggle-switch">
+        <input type="checkbox" id="blockTrackers" checked>
+        <span class="slider"></span>
+        <span class="toggle-label">Block Trackers</span>
+      </label>
+    </div>
+    
+    <div class="actions">
+      <button id="whitelistSite" class="btn btn-secondary">Whitelist Site</button>
+      <button id="openOptions" class="btn btn-primary">Settings</button>
+    </div>
+    
+    <div class="footer">
+      <p>Protecting your privacy since 2025</p>
+    </div>
   </div>
-  
-  <div class="stats">
-    <h3>Blocking Statistics</h3>
-    <p>📊 Total Blocked: <span id="totalBlocked">0</span></p>
-    <p>🚫 Ads Blocked: <span id="adsBlocked">0</span></p>
-    <p>🔒 Trackers Blocked: <span id="trackersBlocked">0</span></p>
-  </div>
-  
-  <div class="toggle">
-    <label>
-      <input type="checkbox" id="enableBlocking" checked> Enable Blocking
-    </label>
-  </div>
-  
-  <button id="openOptions">Settings</button>
-  <button id="whitelistSite">Whitelist Site</button>
   
   <script src="popup.js"></script>
 </body>

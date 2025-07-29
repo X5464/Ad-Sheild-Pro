@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AdBlock Shield Pro - Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🛡️ AdBlock Shield Pro - Settings</h1>
+      <p>Created by Rajarshi Chakraborty</p>
+    </header>
+    
+    <nav class="tabs">
+      <button class="tab-button active" data-tab="general">General</button>
+      <button class="tab-button" data-tab="filters">Filter Lists</button>
+      <button class="tab-button" data-tab="whitelist">Whitelist</button>
+      <button class="tab-button" data-tab="stats">Statistics</button>
+    </nav>
+    
+    <main class="content">
+      <!-- General Settings Tab -->
+      <div class="tab-content active" id="general">
+        <h2>🔧 General Settings</h2>
+        
+        <div class="setting-group">
+          <h3>Blocking Options</h3>
+          <label class="setting">
+            <input type="checkbox" id="enableBlocking" checked>
+            <span class="setting-label">Enable Ad & Tracker Blocking</span>
+            <span class="setting-desc">Master switch for all blocking functionality</span>
+          </label>
+          
+          <label class="setting">
+            <input type="checkbox" id="blockAds" checked>
+            <span class="setting-label">Block Advertisements</span>
+            <span class="setting-desc">Remove banner ads, video ads, and sponsored content</span>
+          </label>
+          
+          <label class="setting">
+            <input type="checkbox" id="blockTrackers" checked>
+            <span class="setting-label">Block Trackers</span>
+            <span class="setting-desc">Prevent analytics, pixels, and behavioral tracking</span>
+          </label>
+          
+          <label class="setting">
+            <input type="checkbox" id="blockSocial" checked>
+            <span class="setting-label">Block Social Media Widgets</span>
+            <span class="setting-desc">Remove like buttons and social sharing widgets</span>
+          </label>
+        </div>
+        
+        <div class="setting-group">
+          <h3>Interface Options</h3>
+          <label class="setting">
+            <input type="checkbox" id="showBadge" checked>
+            <span class="setting-label">Show Badge Counter</span>
+            <span class="setting-desc">Display blocked item count on extension icon</span>
+          </label>
+          
+          <label class="setting">
+            <input type="checkbox" id="showNotifications">
+            <span class="setting-label">Show Block Notifications</span>
+            <span class="setting-desc">Display notifications when items are blocked</span>
+          </label>
+        </div>
+      </div>
+      
+      <!-- Filter Lists Tab -->
+      <div class="tab-content" id="filters">
+        <h2>📋 Filter Lists</h2>
+        <div class="filter-lists">
+          <div class="filter-item">
+            <label>
+              <input type="checkbox" checked disabled>
+              <span class="filter-name">EasyList (Core Ads)</span>
+              <span class="filter-desc">67,847 rules | Updated daily</span>
+            </label>
+          </div>
+          
+          <div class="filter-item">
+            <label>
+              <input type="checkbox" checked disabled>
+              <span class="filter-name">EasyPrivacy (Trackers)</span>
+              <span class="filter-desc">23,491 rules | Updated daily</span>
+            </label>
+          </div>
+          
+          <div class="filter-item">
+            <label>
+              <input type="checkbox" id="enableMalware">
+              <span class="filter-name">Malware Protection</span>
+              <span class="filter-desc">Security-focused blocking rules</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="custom-rules">
+          <h3>Custom Rules</h3>
+          <textarea id="customRules" placeholder="Add your custom blocking rules here (one per line)&#10;Example: ||example.com/ads/*"></textarea>
+          <button id="saveRules" class="btn btn-primary">Save Custom Rules</button>
+        </div>
+      </div>
+      
+      <!-- Whitelist Tab -->
+      <div class="tab-content" id="whitelist">
+        <h2>✅ Whitelisted Sites</h2>
+        <div class="whitelist-section">
+          <div class="add-whitelist">
+            <input type="text" id="whitelistInput" placeholder="Enter domain (e.g., example.com)">
+            <button id="addWhitelist" class="btn btn-primary">Add to Whitelist</button>
+          </div>
+          
+          <div class="whitelist-list" id="whitelistList">
+            <!-- Whitelisted sites will be added here dynamically -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Statistics Tab -->
+      <div class="tab-content" id="stats">
+        <h2>📈 Detailed Statistics</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Blocked</h3>
+            <div class="stat-number" id="totalBlockedStat">0</div>
+          </div>
+          
+          <div class="stat-card">
+            <h3>Ads Blocked</h3>
+            <div class="stat-number" id="adsBlockedStat">0</div>
+          </div>
+          
+          <div class="stat-card">
+            <h3>Trackers Blocked</h3>
+            <div class="stat-number" id="trackersBlockedStat">0</div>
+          </div>
+          
+          <div class="stat-card">
+            <h3>Data Saved</h3>
+            <div class="stat-number" id="dataSavedStat">0 MB</div>
+          </div>
+        </div>
+        
+        <div class="reset-section">
+          <button id="resetStats" class="btn btn-danger">Reset All Statistics</button>
+        </div>
+      </div>
+    </main>
+    
+    <footer class="footer">
+      <p>AdBlock Shield Pro v1.0.0 | Created with ❤️ by Rajarshi Chakraborty</p>
+      <p><a href="https://github.com/X5464/Ad-Sheild-Pro" target="_blank">GitHub Repository</a></p>
+    </footer>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html>
