@@ -1,0 +1,94 @@
+{
+  "manifest_version": 3,
+  "name": "AdBlock Shield Pro",
+  "version": "1.0.0",
+  "description": "Ultimate cross-platform ad and tracker blocker - blocks 99%+ of ads, trackers, and malware across all websites. Created by Rajarshi Chakraborty.",
+  "author": "Rajarshi Chakraborty",
+  "homepage_url": "https://github.com/X5464/Ad-Sheild-Pro",
+  
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "declarativeNetRequestFeedback",
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ads_rules",
+        "enabled": true,
+        "path": "rules/ads_rules.json"
+      },
+      {
+        "id": "trackers_rules", 
+        "enabled": true,
+        "path": "rules/trackers_rules.json"
+      },
+      {
+        "id": "malware_rules",
+        "enabled": true,
+        "path": "rules/malware_rules.json"
+      }
+    ]
+  },
+  
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "AdBlock Shield Pro - Ultimate Ad & Tracker Blocker",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  
+  "options_page": "options/options.html",
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png", 
+    "128": "icons/icon128.png"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["rules/*.json", "icons/*.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  
+  "minimum_chrome_version": "88",
+  
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...",
+  
+  "commands": {
+    "toggle_blocking": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+B",
+        "mac": "Command+Shift+B"
+      },
+      "description": "Toggle ad blocking on/off"
+    }
+  }
+}
