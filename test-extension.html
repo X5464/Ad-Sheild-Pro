@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>Extension Test Page</title></head>
+<body>
+<h1>🛡️ AdBlock Shield Pro Test Page</h1>
+<div class="advertisement">TEST AD - Should be blocked</div>
+<div class="google-ads">TEST GOOGLE AD - Should be blocked</div>
+<script>
+setTimeout(() => {
+    const ads = document.querySelectorAll('.advertisement, .google-ads');
+    const blocked = Array.from(ads).filter(ad => 
+        ad.style.display === 'none' || ad.offsetParent === null
+    ).length;
+    document.body.innerHTML += `<p>Blocked ${blocked}/${ads.length} test ads</p>`;
+}, 1000);
+</script>
+</body>
+</html>
